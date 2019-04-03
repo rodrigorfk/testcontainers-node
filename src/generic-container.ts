@@ -60,7 +60,8 @@ export class GenericContainer implements TestContainer {
   private async waitForContainer(container: Container, containerState: ContainerState): Promise<void> {
     const hostPortCheck = new HostPortCheck();
     const internalPortCheck = new InternalPortCheck(container, this.dockerClient);
-    const waitStrategy = new HostPortWaitStrategy(this.dockerClient, hostPortCheck, internalPortCheck);
+    const waitStrategy = new HostPortWaitStrategy(this.dockerClient, hostPortCheck, internalPortCheck)
+        .withStartupTimeout(this.startupTimeout);
     await waitStrategy.waitUntilReady(containerState);
   }
 }
